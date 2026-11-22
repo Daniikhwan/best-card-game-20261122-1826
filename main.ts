@@ -4,7 +4,7 @@
 // make.fun library. Outside the grader, MAKEFUN_OUTPUT_DIR stands in for
 // /output:  mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
-import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-game.ts';
@@ -33,3 +33,7 @@ writeFileSync(
     game_path_max_bytes: 1000,
   }),
 );
+
+// One line of proof on stdout, so a local run shows the hand-in is complete.
+const dossierBytes = statSync(join(out, 'dossier.json')).size;
+console.log(`Ember Court hand-in ready in ${out} (dossier.json ${dossierBytes} bytes)`);
